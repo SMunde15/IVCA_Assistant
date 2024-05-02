@@ -20,7 +20,7 @@ function App() {
           </ul>
         </aside>
         <main className="main">
-          <h1>IVCA : Integrated Voice and Chat Assistant</h1>
+          <h1 style={{justifySelf:'center'}}>IVCA : Integrated Voice and Chat Assistant</h1>
           <SpeechToText />
         </main>
       </div>

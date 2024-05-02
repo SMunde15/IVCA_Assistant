@@ -218,11 +218,19 @@ const handleSend = () => sendToAPI(text);
           onChange={(e) => setText(e.target.value)}
           placeholder="Speak something..."
         />
-        <button className="button" onClick={handleRecord}>
+        <button
+          className="button"
+          onClick={handleRecord}
+          style={{ marginRight: "0.3vw" }}
+        >
           {isRecording ? "Stop" : "Record"}
         </button>
-        <button className="button" onClick={handleSend}>
-          Send 
+        <button
+          className="button"
+          onClick={handleSend}
+          style={{ marginRight: "0.3vw" }}
+        >
+          Send
         </button>
         <button className="button" onClick={toggleSpeech}>
           {isSpeechEnabled ? "Disable Voice " : "Enable Voice "}

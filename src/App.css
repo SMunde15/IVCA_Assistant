@@ -1,16 +1,21 @@
 .layout {
   display: flex;
   height: 100vh;
-  background-color: grey;
+  background-color: rgba(111, 106, 106, 0.638);
 }
 
 .sidebar {
-  background-color: #f0f0f0;
-  width: 300px;
+  background-color: #211f1fdf;
+  width: 20%;
   padding: 20px;
+  text-decoration: solid !important;
+  color: white;
 }
 
 .main {
   flex: 1;
   padding: 20px;
+  margin-top: -20px;
+  
+  
 }
