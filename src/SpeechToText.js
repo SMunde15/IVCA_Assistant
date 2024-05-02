@@ -4,7 +4,7 @@ import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import "./styles.css"; 
-import { Container, Grid } from "@mui/material";
+
 
 const SpeechToText = () => {
   const [isRecording, setIsRecording] = useState(false);
@@ -194,7 +194,6 @@ const handleSend = () => sendToAPI(text);
   };
 
   return (
-    <Container>
       <div className="container">
         {isLoading && (
           <div className="overlay">
@@ -239,7 +238,7 @@ const handleSend = () => sendToAPI(text);
           </button>
         </div>
       </div>
-    </Container>
+
   );
 };
 

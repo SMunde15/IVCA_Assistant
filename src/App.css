@@ -21,6 +21,14 @@
   
 }
 
+.commands-list {
+  margin-bottom: 10px; /* adjust the space as needed */
+}
+
+.sidebar li:not(:last-child) {
+  margin-bottom: 20px; /* adjust the space as needed */
+}
+
 
 @media (max-width: 900px){
   .sidebar{
