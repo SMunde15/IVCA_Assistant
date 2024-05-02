@@ -187,7 +187,12 @@ const handleSend = () => sendToAPI(text);
       );
     },
     a: ({ href, children }) => (
-      <a href={href} target="_blank" rel="noopener noreferrer">
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ color: "Highlight" }}
+      >
         {children}
       </a>
     ),
