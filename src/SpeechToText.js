@@ -140,14 +140,11 @@ const handleSend = () => sendToAPI(text);
     setIsLoading(true); // Start loading
 
     try {
-      const response = await fetch(
-        "http://192.168.1.36:5000/process_command",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ data: spokenText }),
-        }
-      );
+      const response = await fetch("http://127.0.0.1:5000/process_command", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ data: spokenText }),
+      });
       const data = await response.json();
       const newResponse = data.response;
       setResponses((prev) => [...prev, newResponse]);
