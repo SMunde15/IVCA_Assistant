@@ -3,7 +3,8 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import "./styles.css"; // Assuming your styles are saved here
+import "./styles.css"; 
+import { Container, Grid } from "@mui/material";
 
 const SpeechToText = () => {
   const [isRecording, setIsRecording] = useState(false);
@@ -193,50 +194,52 @@ const handleSend = () => sendToAPI(text);
   };
 
   return (
-    <div className="container">
-      {isLoading && (
-        <div className="overlay">
-          <div className="spinner"></div>
-        </div>
-      )}
-      <div className="responses">
-        {responses.map((response, index) => (
-          <div key={index} className="response-container">
-            <h3>API Response:</h3>
-            <Markdown
-              children={response}
-              components={components}
-              remarkPlugins={[remarkGfm]}
-            />
+    <Container>
+      <div className="container">
+        {isLoading && (
+          <div className="overlay">
+            <div className="spinner"></div>
           </div>
-        ))}
+        )}
+        <div className="responses">
+          {responses.map((response, index) => (
+            <div key={index} className="response-container">
+              <h3>API Response:</h3>
+              <Markdown
+                children={response}
+                components={components}
+                remarkPlugins={[remarkGfm]}
+              />
+            </div>
+          ))}
+        </div>
+        <div className="input-area">
+          <textarea
+            className="textarea"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Speak something..."
+          />
+          <button
+            className="button"
+            onClick={handleRecord}
+            style={{ marginRight: "0.3vw" }}
+          >
+            {isRecording ? "Stop" : "Record"}
+          </button>
+          <button
+            className="button"
+            onClick={handleSend}
+            style={{ marginRight: "0.3vw" }}
+          >
+            Send
+          </button>
+          <button className="button" onClick={toggleSpeech}>
+            {isSpeechEnabled ? "Disable Voice " : "Enable Voice "}
+          </button>
+        </div>
       </div>
-      <div className="input-area">
-        <textarea
-          className="textarea"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Speak something..."
-        />
-        <button
-          className="button"
-          onClick={handleRecord}
-          style={{ marginRight: "0.3vw" }}
-        >
-          {isRecording ? "Stop" : "Record"}
-        </button>
-        <button
-          className="button"
-          onClick={handleSend}
-          style={{ marginRight: "0.3vw" }}
-        >
-          Send
-        </button>
-        <button className="button" onClick={toggleSpeech}>
-          {isSpeechEnabled ? "Disable Voice " : "Enable Voice "}
-        </button>
-      </div>
-    </div>
+    </Container>
   );
 };
 

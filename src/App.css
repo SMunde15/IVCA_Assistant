@@ -16,6 +16,14 @@
   flex: 1;
   padding: 20px;
   margin-top: -20px;
+  align-items: center;
   
   
+}
+
+
+@media (max-width: 900px){
+  .sidebar{
+    display: none;
+  }
 }
