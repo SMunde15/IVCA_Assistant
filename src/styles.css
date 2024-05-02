@@ -3,6 +3,7 @@
   flex-direction: column;
   height: 85vh;
   overflow-x: hidden;
+  background-color: grey;
 }
 
 .responses {
