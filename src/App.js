@@ -22,11 +22,6 @@ function App() {
               <strong>DISABLE VOICE</strong> if you dont want to listen whole
               respone
             </li>
-            {/* <li>I want to search on Google "anything you want"</li>
-            <li>I want to Search on YouTube "anything you want"</li>
-            <li>I want to search song on Spotify "any song you want"</li>
-            <li>Can you give me code for "any program you want"</li>
-            <li>Using IVCA "anything you want"</li> */}
             <li>
               <em>For example...</em>
               <ul>
@@ -63,6 +58,16 @@ function App() {
                   </em>
                 </li>
               </ul>
+            </li>
+            <li>
+              To know how it works,{" "}
+              <a
+                href="https://photos.google.com/share/AF1QipOcBTy4spRNIb7k3PKsg9Zvvc-UxN-Xw_BVqek3VorIYKbJ-Ef4XmzrcTjI3e4dxA/photo/AF1QipNURssX07mO6VCl3VrQBwJ2QKE_iNtElL-Hy2MD?key=TWl4cVlfRHRaMV9HLUVKU3FiMHAweTNCa291NXhn"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                CLICK HERE
+              </a>
             </li>
           </ul>
         </aside>
