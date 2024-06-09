@@ -3,8 +3,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import "./styles.css"; 
-
+import "./styles.css";
 
 const SpeechToText = () => {
   const [isRecording, setIsRecording] = useState(false);
@@ -22,111 +21,107 @@ const SpeechToText = () => {
     setIsSpeechEnabled(!isSpeechEnabled);
   };
 
-const speak = (text) => {
-  if (!window.speechSynthesis) {
-    alert("Text-to-speech not supported in this browser.");
-    return;
-  }
-
-  // Function to remove URLs from the text
-  const removeUrls = (text) => {
-    return text.replace(/https?:\/\/\S+\b/g, "");
-  };
-
-  const filteredText = removeUrls(text);
-
-  const utterance = new SpeechSynthesisUtterance(filteredText);
-  utterance.pitch = 1;
-  utterance.rate = 1;
-  utterance.volume = 1;
-
-  window.speechSynthesis.speak(utterance);
-};
-
-const createMailToLink = (emailBody) => {
-  const subject = encodeURIComponent("Your Subject Here"); // You can customize or make it dynamic
-  const body = encodeURIComponent(emailBody);
-  return `https://mail.google.com/mail/?view=cm&fs=1&tf=1&su=${subject}&body=${body}`;
-};
-
-
- const setupSpeechRecognition = () => {
-   const SpeechRecognition =
-     window.SpeechRecognition || window.webkitSpeechRecognition;
-   const recognition = new SpeechRecognition();
-   recognition.continuous = true;
-   recognition.interimResults = true;
-   recognition.lang = "en-US";
-
-   let finalTranscript = "";
-
-   recognition.onresult = (event) => {
-     let interimTranscript = "";
-
-     for (let i = event.resultIndex; i < event.results.length; ++i) {
-       const transcript = event.results[i][0].transcript;
-       if (event.results[i].isFinal) {
-         finalTranscript += transcript;
-       } else {
-         interimTranscript += transcript;
-       }
-     }
-
-     setText(finalTranscript + interimTranscript);
-
-     if (finalTranscript.toLowerCase().includes("send")) {
-       sendToAPI(finalTranscript.replace(/send/gi, "").trim());
-       finalTranscript = "";
-     } else if (
-       finalTranscript.toLowerCase().includes("start recording") &&
-       !isRecording
-     ) {
-       handleRecord();
-       finalTranscript = "";
-     } else if (
-       finalTranscript.toLowerCase().includes("please stop") &&
-       isRecording
-     ) {
-       handleRecord();
-       finalTranscript = "";
-     } else if (finalTranscript.toLowerCase().includes("clear")) {
-       setText("");
-       finalTranscript = "";
-     }
-   };
-
-  recognition.onend = () => {
-    if (isRecording) {
-      recognition.start(); 
-    } else {
-      setIsRecording(false); 
+  const speak = (text) => {
+    if (!window.speechSynthesis) {
+      alert("Text-to-speech not supported in this browser.");
+      return;
     }
+
+    // Function to remove URLs from the text
+    const removeUrls = (text) => {
+      return text.replace(/https?:\/\/\S+\b/g, "");
+    };
+
+    const filteredText = removeUrls(text);
+
+    const utterance = new SpeechSynthesisUtterance(filteredText);
+    utterance.pitch = 1;
+    utterance.rate = 1;
+    utterance.volume = 1;
+
+    window.speechSynthesis.speak(utterance);
   };
 
-   return recognition;
- };
-
- 
-
-
-useEffect(() => {
-  const recognition = setupSpeechRecognition();
-
-  if (isRecording) {
-    recognition.start();
-  }
-
-  return () => {
-    recognition.stop();
-    recognition.onend = null; // Clean up the onend to prevent multiple triggers
+  const createMailToLink = (emailBody) => {
+    const subject = encodeURIComponent("Your Subject Here"); // You can customize or make it dynamic
+    const body = encodeURIComponent(emailBody);
+    return `https://mail.google.com/mail/?view=cm&fs=1&tf=1&su=${subject}&body=${body}`;
   };
-}, [isRecording]);                          
 
-const handleRecord = () => {
-  setIsRecording((prevState) => !prevState);
-};
+  const setupSpeechRecognition = () => {
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = "en-US";
 
-const handleSend = () => sendToAPI(text);
+    let finalTranscript = "";
+
+    recognition.onresult = (event) => {
+      let interimTranscript = "";
+
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        const transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalTranscript += transcript;
+        } else {
+          interimTranscript += transcript;
+        }
+      }
+
+      setText(finalTranscript + interimTranscript);
+
+      if (finalTranscript.toLowerCase().includes("send")) {
+        sendToAPI(finalTranscript.replace(/send/gi, "").trim());
+        finalTranscript = "";
+      } else if (
+        finalTranscript.toLowerCase().includes("start recording") &&
+        !isRecording
+      ) {
+        handleRecord();
+        finalTranscript = "";
+      } else if (
+        finalTranscript.toLowerCase().includes("please stop") &&
+        isRecording
+      ) {
+        handleRecord();
+        finalTranscript = "";
+      } else if (finalTranscript.toLowerCase().includes("clear")) {
+        setText("");
+        finalTranscript = "";
+      }
+    };
+
+    recognition.onend = () => {
+      if (isRecording) {
+        recognition.start();
+      } else {
+        setIsRecording(false);
+      }
+    };
+
+    return recognition;
+  };
+
+  useEffect(() => {
+    const recognition = setupSpeechRecognition();
+
+    if (isRecording) {
+      recognition.start();
+    }
+
+    return () => {
+      recognition.stop();
+      recognition.onend = null; // Clean up the onend to prevent multiple triggers
+    };
+  }, [isRecording]);
+
+  const handleRecord = () => {
+    setIsRecording((prevState) => !prevState);
+  };
+
+  const handleSend = () => sendToAPI(text);
 
   const findUrl = (text) => {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -169,7 +164,6 @@ const handleSend = () => sendToAPI(text);
     }
   };
 
-
   const components = {
     code: ({ node, inline, className, children, ...props }) => {
       const match = /language-(\w+)/.exec(className || "");
@@ -199,51 +193,57 @@ const handleSend = () => sendToAPI(text);
   };
 
   return (
-      <div className="container">
-        {isLoading && (
-          <div className="overlay">
-            <div className="spinner"></div>
+    <div className="container">
+      {isLoading && (
+        <div className="overlay">
+          <div className="spinner"></div>
+        </div>
+      )}
+      <div className="responses">
+        {responses.map((response, index) => (
+          <div key={index} className="response-container">
+            <h3>API Response:</h3>
+            <Markdown
+              children={response}
+              components={components}
+              remarkPlugins={[remarkGfm]}
+            />
           </div>
-        )}
-        <div className="responses">
-          {responses.map((response, index) => (
-            <div key={index} className="response-container">
-              <h3>API Response:</h3>
-              <Markdown
-                children={response}
-                components={components}
-                remarkPlugins={[remarkGfm]}
-              />
-            </div>
-          ))}
-        </div>
-        <div className="input-area">
-          <textarea
-            className="textarea"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Speak something..."
-          />
-          <button
-            className="button"
-            onClick={handleRecord}
-            style={{ marginRight: "0.3vw" }}
-          >
-            {isRecording ? "Stop" : "Record"}
-          </button>
-          <button
-            className="button"
-            onClick={handleSend}
-            style={{ marginRight: "0.3vw" }}
-          >
-            Send
-          </button>
-          <button className="button" onClick={toggleSpeech}>
-            {isSpeechEnabled ? "Disable Voice " : "Enable Voice "}
-          </button>
-        </div>
+        ))}
       </div>
-
+      <div className="input-area">
+        <textarea
+          className="textarea"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault(); // Prevent default behavior of Enter key
+              handleSend(); // Call your handleSend function
+            }
+          }}
+          placeholder="Speak something..."
+        />
+        <button
+          className="button"
+          onClick={handleRecord}
+          style={{ marginRight: "0.3vw" }}
+        >
+          {isRecording ? "Stop" : "Record"}
+        </button>
+        <button
+          type="submit"
+          className="button"
+          onClick={handleSend}
+          style={{ marginRight: "0.3vw" }}
+        >
+          Send
+        </button>
+        <button className="button" onClick={toggleSpeech}>
+          {isSpeechEnabled ? "Disable Voice " : "Enable Voice "}
+        </button>
+      </div>
+    </div>
   );
 };
 
